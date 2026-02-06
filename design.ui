@@ -118,24 +118,6 @@ QPushButton:pressed{
      <string>Перевозчик (юр.лицо)</string>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="carrierLine">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>30</y>
-      <width>201</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-   </widget>
    <widget class="QPlainTextEdit" name="driverLine">
     <property name="geometry">
      <rect>
@@ -411,8 +393,10 @@ color: black;
     </property>
     <property name="styleSheet">
      <string notr="true">background:#fcfcf7;
-border-radius: 2px;
-    transition: .2s linear;</string>
+</string>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
     </property>
     <item>
      <property name="text">
@@ -436,11 +420,32 @@ border-radius: 2px;
      <string>ПВЗ:</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="LmpChoise_2">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>30</y>
+      <width>271</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:#fcfcf7;
+    transition: .2s linear;</string>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>Новый элемент</string>
+     </property>
+    </item>
+   </widget>
    <zorder>checkBox</zorder>
    <zorder>shipperLine</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
-   <zorder>carrierLine</zorder>
    <zorder>driverLine</zorder>
    <zorder>label_3</zorder>
    <zorder>vehicleName</zorder>
@@ -459,6 +464,7 @@ border-radius: 2px;
    <zorder>SavePrintBtn</zorder>
    <zorder>label_8</zorder>
    <zorder>LmpChoise</zorder>
+   <zorder>LmpChoise_2</zorder>
   </widget>
   <action name="action">
    <property name="text">

@@ -1,6 +1,9 @@
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QCompleter
+from PySide6.QtCore import QDate, Qt, QSortFilterProxyModel, QStringListModel
 from main_ui import Ui_MainWindow
 from openpyxl import load_workbook
+from select_dialog import SelectDialog
+import subprocess, os, webbrowser,sys, re
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -9,7 +12,9 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.load_data()
         self.load_LMP_adress()
-        self.load_transfer()
+        self.ui.transferBtn.clicked.connect(self.open_select_dialog)
+        self.ui.PrintBtn.clicked.connect(self.save_to_excel)
+
     
     def load_data(self):
         wb = load_workbook("data/template.xltx")
@@ -21,32 +26,110 @@ class MainWindow(QMainWindow):
         self.ui.vehicleName.setText(str(ws["B44"].value))
         self.ui.vehicleNumber.setText(str(ws["AD44"].value))
         self.ui.LmpChoise.setCurrentText(str(ws["B55"].value))
-        self.ui.LmpChoise_2.setCurrentText(str(ws["B41"].value))
+        self.ui.dateEdit.setDate(QDate.currentDate())
+        self.ui.transLine.setPlainText(str(ws["B41"].value))
+
     def load_LMP_adress(self):
         wb = load_workbook("data/template.xltx")
         ws = wb["Данные"]
-
-        self.ui.LmpChoise.clear()
+        items = []
         row = 2
         while True:
             value = ws[f"A{row}"].value
             if value is None:
                 break
-            self.ui.LmpChoise.addItem(str(value))
-            row+=1
-    
-    def load_transfer(self):
-        wb = load_workbook("data/template.xltx")
-        ws = wb["Данные"]
+            items.append(str(value))
+            row += 1
+        self.ui.LmpChoise.clear()
+        self.ui.LmpChoise.addItems(items)
 
-        self.ui.LmpChoise_2.clear()
-        row = 3
-        while True:
-            value = ws[f"C{row}"].value
-            if value is None:
-                break
-            self.ui.LmpChoise_2.addItem(str(value))
-            row+=1
+        model = QStringListModel(items)
+
+        proxy = QSortFilterProxyModel(self)
+        proxy.setSourceModel(model)
+        proxy.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        proxy.setFilterKeyColumn(0)
+
+        completer = QCompleter(proxy, self.ui.LmpChoise)
+        completer.setCompletionMode(QCompleter.PopupCompletion)
+
+        def update_filter(text):
+            words = text.split()
+            if not words:
+                regex = ""
+            else:
+                regex = "|".join([re.escape(word) for word in words])
+            proxy.setFilterRegularExpression(regex)
+            completer.complete()
+            
+        self.ui.LmpChoise.lineEdit().textEdited.connect(update_filter)
+        self.ui.LmpChoise.setCompleter(completer)
+
+
+    def open_select_dialog(self):
+        dialog = SelectDialog(self)
+        result = dialog.exec()
+        if result == 1:
+            self.ui.transLine.setPlainText(dialog.selected_text)
+
+    def save_to_excel(self):
+        box_value = self.ui.ValueSpinBox.value()
+        wb = load_workbook("data/template.xltx")
+        ws = wb["titledTN"]
+
+        #Данные о грузоперевозчике
+        ws["B12"] = self.ui.shipperLine.toPlainText()
+        ws["B41"] = self.ui.transLine.toPlainText()
+
+        #Данные водителя
+        ws["AD41"] = self.ui.driverLine.toPlainText()
+        ws["AC65"] = self.ui.driverName.text()
+        ws["AC83"] = self.ui.driverName.text()
+
+        #ФИО МПП
+        ws["C65"] = self.ui.mppName.text()
+
+        #Данные о транспорте
+        ws["B44"] = self.ui.vehicleName.text()
+        ws["AD44"] = self.ui.vehicleNumber.text()
+
+        #Адрес ПВЗ
+        ws["B55"] = self.ui.LmpChoise.currentText()
+        ws["K8"] = self.ui.LmpChoise.currentText()
+        
+        #Дата
+        ws["D8"] = self.ui.dateEdit.date().toString("dd.MM.yyyy")
+        ws["AF8"] = self.ui.dateEdit.date().toString("dd.MM.yyyy")
+        ws["Q29"] = self.ui.dateEdit.date().toString("dd.MM.yyyy")
+
+        #Колличество коробок
+        ws["P61"] = str(box_value)
+        ws["AY22"] = str(box_value)
+        ws["AD22"] = f"Количество мест: паллет — {box_value} / пласт.кор - 0,    карт.кор"
+        ws["AZ47"] = str(self.ui.comboBox.currentIndex()+1)
+
+        if self.ui.checkBox.isChecked():
+            ws["N11"] = '✓'
+        else:
+            ws["N11"] = ''
+        wb.save("data/template.xltx")
+        self.excel_to_pdf()
+
+    def excel_to_pdf(self):
+        BASE_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
+        excel_path = os.path.join(BASE_DIR, "data", "template.xltx")
+        outdir = os.path.join(BASE_DIR, "data")
+
+        subprocess.run([
+            "C:/Program Files/LibreOffice/program/soffice.exe",
+            "--headless",
+            "--convert-to", "pdf",
+            excel_path,
+            "--outdir", outdir
+        ], check=True)
+        pdf_file = os.path.join(BASE_DIR, "data", "template.pdf")
+        webbrowser.open(pdf_file)
+
 
 
 

@@ -52,7 +52,6 @@ class MainWindow(QMainWindow):
 
         completer = QCompleter(proxy, self.ui.LmpChoise)
         completer.setCompletionMode(QCompleter.PopupCompletion)
-
         def update_filter(text):
             words = text.split()
             if not words:
@@ -61,7 +60,6 @@ class MainWindow(QMainWindow):
                 regex = "|".join([re.escape(word) for word in words])
             proxy.setFilterRegularExpression(regex)
             completer.complete()
-            
         self.ui.LmpChoise.lineEdit().textEdited.connect(update_filter)
         self.ui.LmpChoise.setCompleter(completer)
 

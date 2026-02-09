@@ -1,9 +1,10 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QCompleter
+from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QCompleter, QMessageBox
 from PySide6.QtCore import QDate, Qt, QSortFilterProxyModel, QStringListModel
 from main_ui import Ui_MainWindow
 from openpyxl import load_workbook
 from select_dialog import SelectDialog
 import subprocess, os, webbrowser,sys, re
+import win32com.client
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -14,10 +15,18 @@ class MainWindow(QMainWindow):
         self.load_LMP_adress()
         self.ui.transferBtn.clicked.connect(self.open_select_dialog)
         self.ui.PrintBtn.clicked.connect(self.save_to_excel)
+        
 
+    def resource_path(self,relative_path):
+        try:
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
     
     def load_data(self):
-        wb = load_workbook("data/template.xltx")
+        wb = load_workbook(self.resource_path("data/template.xltx"))
         ws = wb["titledTN"]
         self.ui.shipperLine.setPlainText(str(ws["B12"].value))
         self.ui.driverLine.setPlainText(str(ws["AD41"].value))
@@ -30,7 +39,7 @@ class MainWindow(QMainWindow):
         self.ui.transLine.setPlainText(str(ws["B41"].value))
 
     def load_LMP_adress(self):
-        wb = load_workbook("data/template.xltx")
+        wb = load_workbook(self.resource_path("data/template.xltx"))
         ws = wb["Данные"]
         items = []
         row = 2
@@ -72,7 +81,7 @@ class MainWindow(QMainWindow):
 
     def save_to_excel(self):
         box_value = self.ui.ValueSpinBox.value()
-        wb = load_workbook("data/template.xltx")
+        wb = load_workbook(self.resource_path("data/template.xltx"))
         ws = wb["titledTN"]
 
         #Данные о грузоперевозчике
@@ -110,23 +119,55 @@ class MainWindow(QMainWindow):
             ws["N11"] = '✓'
         else:
             ws["N11"] = ''
-        wb.save("data/template.xltx")
+        wb.save(self.resource_path("data/template.xltx"))
         self.excel_to_pdf()
 
     def excel_to_pdf(self):
         BASE_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
-        excel_path = os.path.join(BASE_DIR, "data", "template.xltx")
-        outdir = os.path.join(BASE_DIR, "data")
+        excel_path = self.resource_path("data/template.xltx")
+        outdir = self.resource_path("data")
 
-        subprocess.run([
-            "C:/Program Files/LibreOffice/program/soffice.exe",
-            "--headless",
-            "--convert-to", "pdf",
-            excel_path,
-            "--outdir", outdir
-        ], check=True)
-        pdf_file = os.path.join(BASE_DIR, "data", "template.pdf")
-        webbrowser.open(pdf_file)
+        libreoffice_path = r"C:/Program Files/LibreOffice/program/soffice.exe"
+
+        if os.path.exists(libreoffice_path):
+            try:
+                subprocess.run([
+                    libreoffice_path,
+                    "--headless",
+                    "--convert-to", "pdf",
+                    excel_path,
+                    "--outdir", outdir
+                ], check=True)
+
+                pdf_file = os.path.join(outdir, "template.pdf")
+                webbrowser.open(pdf_file)
+                return
+            except Exception as e:
+                print("Ошибка LibreOffice:", e)
+
+        try:
+            excel = win32com.client.Dispatch("Excel.Application")
+            excel.Visible = False
+            wb = excel.Workbooks.Open(os.path.abspath(excel_path))
+            pdf_file = os.path.join(outdir, "template.pdf")
+            wb.ExportAsFixedFormat(0, pdf_file)
+            wb.Close(False)
+            excel.Quit()
+            webbrowser.open(pdf_file)
+            return
+
+        except Exception as e:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setWindowTitle("Ошибка")
+            msg.setText("Не найден способ конвертации в PDF")
+            msg.setInformativeText(
+                "Установите один из вариантов:\n\n"
+                "• LibreOffice\n"
+                "• Microsoft Excel\n\n"
+                "Без одного из них экспорт невозможен."
+            )
+            msg.exec()
 
 
 

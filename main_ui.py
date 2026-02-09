@@ -37,15 +37,16 @@ class Ui_MainWindow(object):
 
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"QWidget{\n"
-"background: #e9f5f5;\n"
 "font: 12pt \"Calibri\";\n"
 "}\n"
 "QLineEdit{\n"
 "background: #fcfcf7;\n"
+"color:black;\n"
 "}\n"
 "QPlainTextEdit{\n"
 "font-size:10pt;\n"
 "background: #fcfcf7;\n"
+"color:black;\n"
 "}\n"
 "QListView{\n"
 "background: #fcfcf7;\n"
@@ -53,24 +54,11 @@ class Ui_MainWindow(object):
 "QPushButton{\n"
 "background:#fcfcf7;\n"
 "}\n"
-"QPushButton#transferBtn{\n"
-"	border-radius: 0px;\n"
-"    color: black;\n"
-"    transition: .2s linear;\n"
-"    background: #8ff2f2;\n"
+"\n"
+"QPushButton{\n"
+"color:black;\n"
 "}\n"
-"QPushButton#transferBtn:pressed{\n"
-"	background: #76cccc;\n"
-"}\n"
-"QPushButton#PrintBtn{\n"
-"	border-radius: 0px;\n"
-"    color: black;\n"
-"    transition: .2s linear;\n"
-"    background: #62c734;\n"
-"}\n"
-"QPushButton#PrintBtn:pressed{\n"
-"	background: #4b9926;\n"
-"}\n"
+"\n"
 "QDateEdit{\n"
 "background: #fcfcf7;\n"
 "}")
@@ -85,7 +73,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.checkBox = QCheckBox(self.centralwidget)
         self.checkBox.setObjectName(u"checkBox")
-        self.checkBox.setGeometry(QRect(20, 170, 331, 20))
+        self.checkBox.setGeometry(QRect(20, 170, 351, 20))
         self.checkBox.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.checkBox.setChecked(True)
         self.shipperLine = QPlainTextEdit(self.centralwidget)
@@ -97,6 +85,7 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setItalic(False)
         self.shipperLine.setFont(font)
+        self.shipperLine.setStyleSheet(u"color:black;")
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(60, 10, 121, 16))
@@ -107,6 +96,7 @@ class Ui_MainWindow(object):
         self.driverLine.setObjectName(u"driverLine")
         self.driverLine.setGeometry(QRect(510, 30, 231, 101))
         self.driverLine.setFont(font)
+        self.driverLine.setStyleSheet(u"color:black;")
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(590, 10, 71, 16))
@@ -136,8 +126,9 @@ class Ui_MainWindow(object):
         self.mppName.setGeometry(QRect(200, 260, 201, 21))
         self.ValueSpinBox = QSpinBox(self.centralwidget)
         self.ValueSpinBox.setObjectName(u"ValueSpinBox")
-        self.ValueSpinBox.setGeometry(QRect(120, 310, 61, 31))
-        self.ValueSpinBox.setStyleSheet(u"background:#fcfcf7;")
+        self.ValueSpinBox.setGeometry(QRect(120, 310, 81, 31))
+        self.ValueSpinBox.setStyleSheet(u"background:#fcfcf7;\n"
+"color:black;")
         self.label_9 = QLabel(self.centralwidget)
         self.label_9.setObjectName(u"label_9")
         self.label_9.setGeometry(QRect(20, 300, 91, 41))
@@ -164,7 +155,8 @@ class Ui_MainWindow(object):
         self.comboBox.setObjectName(u"comboBox")
         self.comboBox.setGeometry(QRect(510, 310, 231, 22))
         self.comboBox.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.comboBox.setStyleSheet(u"background:#fcfcf7;")
+        self.comboBox.setStyleSheet(u"background:#fcfcf7;\n"
+"color:black;")
         self.PrintBtn = QPushButton(self.centralwidget)
         self.PrintBtn.setObjectName(u"PrintBtn")
         self.PrintBtn.setGeometry(QRect(310, 330, 121, 31))
@@ -178,6 +170,7 @@ class Ui_MainWindow(object):
         self.LmpChoise.setGeometry(QRect(60, 200, 331, 31))
         self.LmpChoise.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.LmpChoise.setStyleSheet(u"background:#fcfcf7;\n"
+"color:black;\n"
 "")
         self.LmpChoise.setEditable(True)
         self.label_8 = QLabel(self.centralwidget)
@@ -186,10 +179,10 @@ class Ui_MainWindow(object):
         self.label_8.setStyleSheet(u"font: 700 12pt \"Calibri\";")
         self.dateEdit = QDateEdit(self.centralwidget)
         self.dateEdit.setObjectName(u"dateEdit")
-        self.dateEdit.setGeometry(QRect(70, 260, 111, 21))
+        self.dateEdit.setGeometry(QRect(70, 260, 121, 21))
         self.dateEdit.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.dateEdit.setStyleSheet(u"color:black;")
-        self.dateEdit.setMinimumDateTime(QDateTime(QDate(2025, 1, 1), QTime(15, 0, 0)))
+        self.dateEdit.setMinimumDateTime(QDateTime(QDate(2025, 1, 1), QTime(9, 0, 0)))
         self.dateEdit.setMaximumDate(QDate(2100, 12, 31))
         self.dateEdit.setMinimumDate(QDate(2025, 1, 1))
         self.dateEdit.setCalendarPopup(True)
@@ -207,6 +200,7 @@ class Ui_MainWindow(object):
         self.transLine.setObjectName(u"transLine")
         self.transLine.setGeometry(QRect(250, 30, 241, 101))
         self.transLine.setFont(font)
+        self.transLine.setStyleSheet(u"color:black;")
         MainWindow.setCentralWidget(self.centralwidget)
         self.checkBox.raise_()
         self.shipperLine.raise_()

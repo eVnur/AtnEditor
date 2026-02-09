@@ -35,15 +35,16 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
-background: #e9f5f5;
 font: 12pt &quot;Calibri&quot;;
 }
 QLineEdit{
 background: #fcfcf7;
+color:black;
 }
 QPlainTextEdit{
 font-size:10pt;
 background: #fcfcf7;
+color:black;
 }
 QListView{
 background: #fcfcf7;
@@ -51,24 +52,11 @@ background: #fcfcf7;
 QPushButton{
 background:#fcfcf7;
 }
-QPushButton#transferBtn{
-	border-radius: 0px;
-    color: black;
-    transition: .2s linear;
-    background: #8ff2f2;
+
+QPushButton{
+color:black;
 }
-QPushButton#transferBtn:pressed{
-	background: #76cccc;
-}
-QPushButton#PrintBtn{
-	border-radius: 0px;
-    color: black;
-    transition: .2s linear;
-    background: #62c734;
-}
-QPushButton#PrintBtn:pressed{
-	background: #4b9926;
-}
+
 QDateEdit{
 background: #fcfcf7;
 }</string>
@@ -82,7 +70,7 @@ background: #fcfcf7;
      <rect>
       <x>20</x>
       <y>170</y>
-      <width>331</width>
+      <width>351</width>
       <height>20</height>
      </rect>
     </property>
@@ -112,6 +100,9 @@ background: #fcfcf7;
       <italic>false</italic>
       <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:black;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -156,6 +147,9 @@ background: #fcfcf7;
       <italic>false</italic>
       <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:black;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -268,12 +262,13 @@ background: #fcfcf7;
      <rect>
       <x>120</x>
       <y>310</y>
-      <width>61</width>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background:#fcfcf7;</string>
+     <string notr="true">background:#fcfcf7;
+color:black;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">
@@ -339,7 +334,8 @@ background: #fcfcf7;
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">background:#fcfcf7;</string>
+     <string notr="true">background:#fcfcf7;
+color:black;</string>
     </property>
     <item>
      <property name="text">
@@ -406,6 +402,7 @@ background: #fcfcf7;
     </property>
     <property name="styleSheet">
      <string notr="true">background:#fcfcf7;
+color:black;
 </string>
     </property>
     <property name="editable">
@@ -438,7 +435,7 @@ background: #fcfcf7;
      <rect>
       <x>70</x>
       <y>260</y>
-      <width>111</width>
+      <width>121</width>
       <height>21</height>
      </rect>
     </property>
@@ -450,7 +447,7 @@ background: #fcfcf7;
     </property>
     <property name="minimumDateTime">
      <datetime>
-      <hour>15</hour>
+      <hour>9</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2025</year>
@@ -530,6 +527,9 @@ background: #fcfcf7;
       <italic>false</italic>
       <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:black;</string>
     </property>
    </widget>
    <zorder>checkBox</zorder>

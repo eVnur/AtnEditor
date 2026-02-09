@@ -17,6 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDialog, QListWidget, QListWidgetItem,
     QPushButton, QSizePolicy, QWidget)
+from data import resource_rc
+import os, sys
 from openpyxl import load_workbook
 
 class Ui_SelectDialog(object):
@@ -26,10 +28,14 @@ class Ui_SelectDialog(object):
         SelectDialog.resize(400, 254)
         SelectDialog.setMinimumSize(QSize(400, 254))
         SelectDialog.setMaximumSize(QSize(400, 254))
+        icon = QIcon()
+        icon.addFile(u":/icons/icons8-\u0434\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442\u0441\u044f-48.png", QSize(), QIcon.Mode.Selected, QIcon.State.On)
+        SelectDialog.setWindowIcon(icon)
         self.transList = QListWidget(SelectDialog)
         self.transList.setObjectName(u"transList")
         self.transList.setGeometry(QRect(10, 10, 381, 192))
-        self.transList.setStyleSheet(u"font: 12pt \"Calibri\";")
+        self.transList.setStyleSheet(u"font: 12pt \"Calibri\";\n"
+"color:black;")
         self.OkBtn = QPushButton(SelectDialog)
         self.OkBtn.setObjectName(u"OkBtn")
         self.OkBtn.setGeometry(QRect(80, 210, 101, 31))
@@ -49,6 +55,7 @@ class Ui_SelectDialog(object):
         self.OkBtn.setText(QCoreApplication.translate("SelectDialog", u"OK", None))
         self.CancelBtn.setText(QCoreApplication.translate("SelectDialog", u"\u041e\u0442\u043c\u0435\u043d\u0430", None))
     # retranslateUi
+
 class SelectDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -62,6 +69,14 @@ class SelectDialog(QDialog):
         self.ui.transList.setWordWrap(True)
         self.ui.transList.itemDoubleClicked.connect(self.acceptSelection)
 
+    def resource_path(self,relative_path):
+        try:
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
+    
     def acceptSelection(self):
         item = self.ui.transList.currentItem()
 
@@ -70,7 +85,7 @@ class SelectDialog(QDialog):
             self.accept()
 
     def load_Trans(self):
-        wb = load_workbook("data/template.xltx")
+        wb = load_workbook(self.resource_path("data/template.xltx"))
         ws = wb["Данные"]
         row = 2
         while True:

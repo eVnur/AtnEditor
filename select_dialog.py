@@ -85,7 +85,7 @@ class SelectDialog(QDialog):
             self.accept()
 
     def load_Trans(self):
-        wb = load_workbook(self.resource_path("data/template.xltx"))
+        wb = load_workbook("data/template.xltx")
         ws = wb["Данные"]
         row = 2
         while True:

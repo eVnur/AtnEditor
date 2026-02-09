@@ -10,11 +10,12 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
+        self.excel_path = "data/template.xltx"
         self.ui.setupUi(self)
-        self.load_data()
         self.load_LMP_adress()
         self.ui.transferBtn.clicked.connect(self.open_select_dialog)
         self.ui.PrintBtn.clicked.connect(self.save_to_excel)
+        self.load_data()
         
 
     def resource_path(self,relative_path):
@@ -26,7 +27,7 @@ class MainWindow(QMainWindow):
         return os.path.join(base_path, relative_path)
     
     def load_data(self):
-        wb = load_workbook(self.resource_path("data/template.xltx"))
+        wb = load_workbook(self.excel_path)
         ws = wb["titledTN"]
         self.ui.shipperLine.setPlainText(str(ws["B12"].value))
         self.ui.driverLine.setPlainText(str(ws["AD41"].value))
@@ -39,7 +40,7 @@ class MainWindow(QMainWindow):
         self.ui.transLine.setPlainText(str(ws["B41"].value))
 
     def load_LMP_adress(self):
-        wb = load_workbook(self.resource_path("data/template.xltx"))
+        wb = load_workbook(self.excel_path)
         ws = wb["Данные"]
         items = []
         row = 2
@@ -81,7 +82,7 @@ class MainWindow(QMainWindow):
 
     def save_to_excel(self):
         box_value = self.ui.ValueSpinBox.value()
-        wb = load_workbook(self.resource_path("data/template.xltx"))
+        wb = load_workbook(self.excel_path)
         ws = wb["titledTN"]
 
         #Данные о грузоперевозчике
@@ -119,12 +120,11 @@ class MainWindow(QMainWindow):
             ws["N11"] = '✓'
         else:
             ws["N11"] = ''
-        wb.save(self.resource_path("data/template.xltx"))
+        wb.save(self.excel_path)
         self.excel_to_pdf()
 
     def excel_to_pdf(self):
-        BASE_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
-        excel_path = self.resource_path("data/template.xltx")
+        excel_path = "data/template.xltx"
         outdir = self.resource_path("data")
 
         libreoffice_path = r"C:/Program Files/LibreOffice/program/soffice.exe"

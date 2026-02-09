@@ -126,7 +126,7 @@ class Ui_MainWindow(object):
         self.mppName.setGeometry(QRect(200, 260, 201, 21))
         self.ValueSpinBox = QSpinBox(self.centralwidget)
         self.ValueSpinBox.setObjectName(u"ValueSpinBox")
-        self.ValueSpinBox.setGeometry(QRect(120, 310, 81, 31))
+        self.ValueSpinBox.setGeometry(QRect(120, 310, 111, 31))
         self.ValueSpinBox.setStyleSheet(u"background:#fcfcf7;\n"
 "color:black;")
         self.label_9 = QLabel(self.centralwidget)
@@ -167,7 +167,7 @@ class Ui_MainWindow(object):
         self.LmpChoise = QComboBox(self.centralwidget)
         self.LmpChoise.addItem("")
         self.LmpChoise.setObjectName(u"LmpChoise")
-        self.LmpChoise.setGeometry(QRect(60, 200, 331, 31))
+        self.LmpChoise.setGeometry(QRect(60, 200, 381, 31))
         self.LmpChoise.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.LmpChoise.setStyleSheet(u"background:#fcfcf7;\n"
 "color:black;\n"
@@ -182,7 +182,7 @@ class Ui_MainWindow(object):
         self.dateEdit.setGeometry(QRect(70, 260, 121, 21))
         self.dateEdit.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.dateEdit.setStyleSheet(u"color:black;")
-        self.dateEdit.setMinimumDateTime(QDateTime(QDate(2025, 1, 1), QTime(9, 0, 0)))
+        self.dateEdit.setMinimumDateTime(QDateTime(QDate(2025, 1, 1), QTime(6, 0, 0)))
         self.dateEdit.setMaximumDate(QDate(2100, 12, 31))
         self.dateEdit.setMinimumDate(QDate(2025, 1, 1))
         self.dateEdit.setCalendarPopup(True)

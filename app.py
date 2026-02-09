@@ -124,8 +124,10 @@ class MainWindow(QMainWindow):
         self.excel_to_pdf()
 
     def excel_to_pdf(self):
-        excel_path = "data/template.xltx"
-        outdir = self.resource_path("data")
+        BASE_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
+
+        excel_path = os.path.join(BASE_DIR, "data", "template.xltx")
+        outdir = os.path.join(BASE_DIR, "data")
 
         libreoffice_path = r"C:/Program Files/LibreOffice/program/soffice.exe"
 
